@@ -1,0 +1,48 @@
+{
+  "name": "vuetify-simple-wizard",
+  "version": "1.0.0",
+  "description": "A simple wizard that uses Vue2+Vuetify to get you going quickly",
+  "main": "dist/vuetify-simple-wizard.cjs.js",
+  "module": "dist/vuetify-simple-wizard.es.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "bundle": "bili",
+    "dev": "poi",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonwilczak/vuetify-simple-wizard"
+  },
+  "keywords": [
+    "VueJS",
+    "wizard",
+    "vue",
+    "vuetify"
+  ],
+  "author": {
+    "name": "jasonwilczak",
+    "email": "jason.wilczak@gmail.com"
+  },
+  "license": "MIT",
+  "poi": {
+    "entry": "dev/main.js",
+    "dist": "dev/dist",
+    "homepage": "./",
+    "html": {
+      "template": "dev/index.html"
+    }
+  },
+  "devDependencies": {
+    "bili": "^2.2.7",
+    "poi": "^9.6.13",
+    "rollup-plugin-vue": "^3.0.0",
+    "vuetify": "^1.1.14"
+  },
+  "dependencies": {
+    "material-design-icons-iconfont": "^3.0.3"
+  }
+}
