@@ -1,5 +1,5 @@
 <template>
-<v-stepper v-model="stepStage" alt-labels >
+<v-stepper v-model="stepStage" :alt-labels="!isMobile" >
       <v-stepper-header>
         <template v-for="(item,index) in steps">
           <v-stepper-step
@@ -52,7 +52,8 @@ export default {
         resizer: null,
         isMobile:false,
         stepHeaders:[],
-        currentStepOptions: {}
+        currentStepOptions: {},
+        mobileBreakpoint: 960
       }
     },
     computed: {
@@ -78,7 +79,7 @@ export default {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
       console.log(this.currentStep+':'+JSON.stringify(this.currentStepOptions));
       console.log(this.steps);
-      this.isMobile = window.innerWidth < 600;
+      this.isMobile = window.innerWidth < this.mobileBreakpoint;
       window.addEventListener('resize', this.handleResize)
     },
     methods: {
@@ -109,7 +110,7 @@ export default {
       },
       handleResize() {
         console.log('resizing...');
-        this.isMobile = window.innerWidth < 600;
+        this.isMobile = window.innerWidth < this.mobileBreakpoint;
         console.log('ismobile:'+this.isMobile);
       }
     }
@@ -169,11 +170,12 @@ export default {
 <style>
 div.v-stepper__step--active > div.v-stepper__label {
   display:block !important;
+  margin-left: 1rem;
 }
-.step-header-mobile {
+/* .step-header-mobile {
   display:block !important;
 }
 .v-stepper__label {
   display:block !important;
-}
+} */
 </style>
