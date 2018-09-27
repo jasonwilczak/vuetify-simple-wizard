@@ -23,17 +23,23 @@
 })();
 
 var SimpleWizard = { render: function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { attrs: { "alt-labels": !_vm.isMobile }, model: { value: _vm.stepStage, callback: function ($$v) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, model: { value: _vm.stepStage, callback: function ($$v) {
           _vm.stepStage = $$v;
-        }, expression: "stepStage" } }, [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { directives: [{ name: "show", rawName: "v-show", value: !_vm.isMobile || _vm.isMobile && _vm.stepStage === index + 1, expression: "!isMobile || (isMobile && stepStage === index+1)" }], key: (index + "-step"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
+        }, expression: "stepStage" } }, [!_vm.isMobile ? _c('div', [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
+      return [_c('v-stepper-step', { key: (index + "-step"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2), _vm._v(" "), _c('v-stepper-items', _vm._l(_vm.steps, function (item, index) {
       return _c('v-stepper-content', { key: index, attrs: { "step": index + 1 } }, [_vm._t(item.slot)], 2);
     })), _vm._v(" "), _c('v-layout', [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
           _vm.nextStep();
-        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1);
+        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _vm.isMobile ? _c('div', [_vm._l(_vm.steps, function (item, index) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [_vm._t(item.slot)], 2), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), attrs: { "row": "", "wrap": "" } }, [_c('v-flex', { attrs: { "sm5": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+            _vm.backStep();
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e()], 1), _vm._v(" "), _c('v-flex', { attrs: { "offset-sm2": "", "sm5": "" } }, [!_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
+            _vm.nextStep();
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1)];
+    })], 2) : _vm._e()]);
   }, staticRenderFns: [],
   name: 'vuetify-simple-wizard',
   props: {
@@ -84,10 +90,15 @@ var SimpleWizard = { render: function () {
     this.currentStepOptions = this.steps[this.currentStep].options || {};
     console.log(this.currentStep + ':' + JSON.stringify(this.currentStepOptions));
     console.log(this.steps);
-    this.isMobile = window.innerWidth < this.mobileBreakpoint;
+    this.isMobile = this.isMobileCheck();
     window.addEventListener('resize', this.handleResize);
   },
   methods: {
+    getStepOptions: function getStepOptions(stepIndex) {
+      console.log('getting options for:' + stepIndex);
+      var options = this.steps[stepIndex].options || {};
+      return options;
+    },
     nextStep: function nextStep(skipFunction) {
       if (!skipFunction && typeof this.onNext == 'function') {
         if (!this.onNext(this.currentStep)) {
@@ -115,8 +126,22 @@ var SimpleWizard = { render: function () {
     },
     handleResize: function handleResize() {
       console.log('resizing...');
-      this.isMobile = window.innerWidth < this.mobileBreakpoint;
+      this.isMobile = this.isMobileCheck();
       console.log('ismobile:' + this.isMobile);
+    },
+    isMobileCheck: function isMobileCheck() {
+      // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      //   console.log('useragent : '+navigator.userAgent)
+      //   console.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+      //   return true
+      // } else if(window.innerWidth < 960){
+      if (window.innerWidth < 960) {
+        console.log('window.width' + window.innerWidth);
+        return true;
+      } else {
+        console.log('is not mobile');
+        return false;
+      }
     }
   }
 

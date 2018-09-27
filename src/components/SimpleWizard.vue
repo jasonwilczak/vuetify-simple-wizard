@@ -1,13 +1,13 @@
 <template>
-<v-stepper v-model="stepStage" :alt-labels="!isMobile" >
+<v-stepper v-model="stepStage" :alt-labels="!isMobile" :vertical="isMobile" >
+  <div v-if="!isMobile">
       <v-stepper-header>
         <template v-for="(item,index) in steps">
           <v-stepper-step
             ref="stepHeaders"
             :complete="stepStage > index+1"
             :key="`${index}-step`"
-            :step="index+1"   
-            v-show="!isMobile || (isMobile && stepStage === index+1)"            
+            :step="index+1"              
           >{{ item.label }}
           </v-stepper-step>
           <v-divider
@@ -25,7 +25,25 @@
           <v-btn v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
       </v-layout>
-    </v-stepper>
+  </div>
+  <div v-if="isMobile">
+    <template v-for="(item,index) in steps">
+      <v-stepper-step ref="stepHeaders"
+            :complete="stepStage > index+1"
+            :key="`${index}-step-mobile`"
+            :step="index+1"              
+      >{{ item.label }}
+      </v-stepper-step>
+      <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
+        <slot :name="item.slot"></slot>
+      </v-stepper-content>
+      <v-layout :key="`${index}-stepActions-mobile`" row wrap>        
+          <v-flex sm5><v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn></v-flex>
+          <v-flex offset-sm2 sm5><v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn></v-flex>
+      </v-layout>
+    </template>
+  </div>  
+</v-stepper>
 </template>
 
 <script>
@@ -83,6 +101,11 @@ export default {
       window.addEventListener('resize', this.handleResize)
     },
     methods: {
+      getStepOptions(stepIndex) {
+        console.log('getting options for:'+stepIndex);
+        const options = this.steps[stepIndex].options || {};
+        return options;
+      },
       nextStep (skipFunction) {
         if (!skipFunction && typeof this.onNext == 'function'){
           if(!this.onNext(this.currentStep)) {
