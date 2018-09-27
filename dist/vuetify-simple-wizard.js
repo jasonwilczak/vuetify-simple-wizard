@@ -29,16 +29,16 @@ var SimpleWizard = { render: function () {
       return [_c('v-stepper-step', { key: (index + "-step"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2), _vm._v(" "), _c('v-stepper-items', _vm._l(_vm.steps, function (item, index) {
       return _c('v-stepper-content', { key: index, attrs: { "step": index + 1 } }, [_vm._t(item.slot)], 2);
-    })), _vm._v(" "), _c('v-layout', [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+    })), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
           _vm.nextStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1) : _vm._e(), _vm._v(" "), _vm.isMobile ? _c('div', [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step-mobile"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [_vm._t(item.slot)], 2), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), attrs: { "row": "", "wrap": "" } }, [_c('v-flex', { attrs: { "sm5": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), ref: "stepHeaders", refInFor: true, attrs: { "complete": _vm.stepStage > index + 1, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [_vm._t(item.slot)], 2), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
             _vm.backStep();
-          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e()], 1), _vm._v(" "), _c('v-flex', { attrs: { "offset-sm2": "", "sm5": "" } }, [!_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
             _vm.nextStep();
-          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1)];
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1), _vm._v(" "), index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2) : _vm._e()]);
   }, staticRenderFns: [],
   name: 'vuetify-simple-wizard',
@@ -53,7 +53,14 @@ var SimpleWizard = { render: function () {
     nextStepLabel: { default: 'Next' },
     steps: {},
     onNext: {},
-    onBack: {}
+    onBack: {},
+    mobileBreakpoint: { default: 960 },
+    theme: {
+      type: Object,
+      default: function () {
+        return { actionBarBgColor: 'grey lighten-2' };
+      }
+    }
   },
   data: function data() {
     return {
@@ -63,8 +70,7 @@ var SimpleWizard = { render: function () {
       resizer: null,
       isMobile: false,
       stepHeaders: [],
-      currentStepOptions: {},
-      mobileBreakpoint: 960
+      currentStepOptions: {}
     };
   },
   computed: {

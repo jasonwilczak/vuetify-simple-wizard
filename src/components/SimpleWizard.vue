@@ -21,7 +21,7 @@
           <slot :name="item.slot"></slot>
         </v-stepper-content>
       </v-stepper-items>
-      <v-layout>        
+      <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
           <v-btn v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
       </v-layout>
@@ -37,10 +37,11 @@
       <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
         <slot :name="item.slot"></slot>
       </v-stepper-content>
-      <v-layout :key="`${index}-stepActions-mobile`" row wrap>        
-          <v-flex sm5><v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn></v-flex>
-          <v-flex offset-sm2 sm5><v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn></v-flex>
-      </v-layout>
+      <v-layout :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
+          <v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
+          <v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
+      </v-layout>      
+      <v-divider v-if="index !== steps.length" :key="index"></v-divider>  
     </template>
   </div>  
 </v-stepper>
@@ -60,7 +61,14 @@ export default {
       nextStepLabel: {default: 'Next'},
       steps: {},
       onNext: {},
-      onBack: {}
+      onBack: {},
+      mobileBreakpoint: {default: 960},
+      theme: {
+        type: Object,
+        default: () => {
+          return {actionBarBgColor: 'grey lighten-2'}
+        }
+      }
     },
     data () {
       return {        
@@ -70,8 +78,7 @@ export default {
         resizer: null,
         isMobile:false,
         stepHeaders:[],
-        currentStepOptions: {},
-        mobileBreakpoint: 960
+        currentStepOptions: {}
       }
     },
     computed: {
