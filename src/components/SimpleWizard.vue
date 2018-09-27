@@ -79,7 +79,7 @@ export default {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
       console.log(this.currentStep+':'+JSON.stringify(this.currentStepOptions));
       console.log(this.steps);
-      this.isMobile = window.innerWidth < this.mobileBreakpoint;
+      this.isMobile = this.isMobileCheck();
       window.addEventListener('resize', this.handleResize)
     },
     methods: {
@@ -110,9 +110,24 @@ export default {
       },
       handleResize() {
         console.log('resizing...');
-        this.isMobile = window.innerWidth < this.mobileBreakpoint;
+        this.isMobile = this.isMobileCheck();;
         console.log('ismobile:'+this.isMobile);
+      },
+      isMobileCheck() {
+        // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        //   console.log('useragent : '+navigator.userAgent)
+        //   console.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+        //   return true
+        // } else if(window.innerWidth < 960){
+        if(window.innerWidth < 960){
+          console.log('window.width'+window.innerWidth)
+          return true
+        }
+        else {
+          console.log('is not mobile')
+          return false
       }
+ }
     }
   }
 
