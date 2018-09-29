@@ -43,6 +43,7 @@
     "vuetify": "^1.1.14"
   },
   "dependencies": {
-    "material-design-icons-iconfont": "^3.0.3"
+    "material-design-icons-iconfont": "^3.0.3",
+    "portal-vue": "^1.4.0"
   }
 }

@@ -41,7 +41,7 @@
       </div>
       <div slot="pageDone">
         <h2>Congratulations!  You can leave now...</h2>
-      </div>
+      </div>     
     </vuetify-simple-wizard>
   </v-app>
 </template>

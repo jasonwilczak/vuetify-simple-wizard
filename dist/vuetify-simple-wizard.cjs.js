@@ -8,6 +8,10 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var PortalVue = _interopDefault(require('portal-vue'));
+
 (function () {
   if (typeof document !== 'undefined') {
     var head = document.head || document.getElementsByTagName('head')[0],
@@ -21,18 +25,23 @@ Object.defineProperty(exports, '__esModule', { value: true });
 })();
 
 var SimpleWizard = { render: function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, model: { value: _vm.stepStage, callback: function ($$v) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, scopedSlots: _vm._u([{ key: "default", fn: function (ref) {
+          var index = ref.index;
+          var slotName = ref.slotName;
+
+          return _c('portal', { attrs: { "to": "portal-slot" } }, [_c('v-stepper-content', { attrs: { "step": index + 1 } }, [_vm._t(slotName)], 2)], 1);
+        } }]), model: { value: _vm.stepStage, callback: function ($$v) {
           _vm.stepStage = $$v;
         }, expression: "stepStage" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.isMobile, expression: "!isMobile" }] }, [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
       return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
-    })], 2), _vm._v(" "), _c('v-stepper-items', _vm._l(_vm.steps, function (item, index) {
-      return _c('v-stepper-content', { key: index, attrs: { "step": index + 1 } }, [[_vm._t(item.slot)]], 2);
-    })), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+    })], 2), _vm._v(" "), _c('v-stepper-items', [_vm._l(_vm.steps, function (item, index) {
+      return [_c('portal-target', { key: (index + "-stepContent-content"), attrs: { "name": "portal-slot", "slot-props": { index: index, slotName: item.slot } } })];
+    })], 2), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
           _vm.nextStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [[_vm._t(item.slot)]], 2), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('portal-target', { key: (index + "-stepContent-mobile-content"), attrs: { "name": "portal-slot", "slot-props": { index: index, slotName: item.slot } } }), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
             _vm.backStep();
           } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
             _vm.nextStep();
@@ -141,12 +150,14 @@ var SimpleWizard = { render: function () {
 
 var SimpleWizardPlugin = {
   install: function (Vue, options) {
+    Vue.use(PortalVue);
     Vue.component(SimpleWizard.name, SimpleWizard);
   }
 };
 
 // Automatic installation if Vue has been added to the global scope.
 if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(PortalVue);
   window.Vue.use(SimpleWizardPlugin);
 }
 

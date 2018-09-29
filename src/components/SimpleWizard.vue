@@ -16,9 +16,9 @@
         </template>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content v-for="(item,index) in steps" :key="index" :step="index+1">
-          <template :slot-scope="item.slot"><slot :name="item.slot"></slot></template>
-        </v-stepper-content>
+        <template v-for="(item,index) in steps">
+          <portal-target name="portal-slot" :key="`${index}-stepContent-content`" :slot-props="{index: index,slotName:item.slot}"></portal-target>
+        </template>
       </v-stepper-items>
       <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
           <v-btn v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
@@ -33,9 +33,7 @@
             :step="index+1"              
       >{{ item.label }}
       </v-stepper-step>
-      <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
-        <template :slot-scope="item.slot"><slot :name="item.slot"></slot></template>
-      </v-stepper-content>
+      <portal-target name="portal-slot" :key="`${index}-stepContent-mobile-content`" :slot-props="{index: index,slotName:item.slot}"></portal-target>
       <v-layout :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
           <v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
@@ -43,6 +41,11 @@
       <v-divider v-if="index !== steps.length" :key="index"></v-divider>  
     </template>
   </div>  
+  <portal to="portal-slot" slot-scope="{index,slotName}">
+    <v-stepper-content :step="index+1">
+      <slot :name="slotName"></slot>
+    </v-stepper-content>
+  </portal>
 </v-stepper>
 </template>
 
