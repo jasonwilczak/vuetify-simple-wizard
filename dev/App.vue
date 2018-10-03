@@ -5,7 +5,6 @@
       :steps="steps"
       :onNext="nextClicked" 
       :onBack="backClicked"
-      :baseOptions="{'nonLinear':true}"
       :developer="{'verboseLogging':'true','logger':myLogger}"
       :isPersisted="isUserDone"
       >
