@@ -1,6 +1,6 @@
 {
   "name": "vuetify-simple-wizard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple wizard that uses Vue2+Vuetify to get you going quickly",
   "main": "dist/vuetify-simple-wizard.cjs.js",
   "module": "dist/vuetify-simple-wizard.es.js",

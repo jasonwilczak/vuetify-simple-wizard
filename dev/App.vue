@@ -6,6 +6,7 @@
       :onNext="nextClicked" 
       :onBack="backClicked"
       :developer="{'verboseLogging':'true','logger':myLogger}"
+      :isPersisted="isUserDone"
       >
       <div slot="page1">
         <h4>Step 1</h4>
@@ -55,6 +56,7 @@ export default {
     return {
       step1:'',
       step2:'',
+      currentStep: 0,
       steps: [
         {
           label: 'Select Items',
@@ -78,6 +80,7 @@ export default {
         {
           label: 'Define Terrain',
           slot: 'page4',
+          nonLinear: true
         },
         {
           label: 'Hire Trolls',
@@ -112,14 +115,19 @@ export default {
   methods: {
     nextClicked(currentPage) {
       this.myLogger('next clicked', currentPage)
+      this.currentStep++;
       return true; //return false if you want to prevent moving to next page
     },
     backClicked(currentPage) {
       this.myLogger('back clicked', currentPage);
+      this.currentStep--;
       return true; //return false if you want to prevent moving to previous page
     },
     myLogger(message) {
       console.log('from myLogger: '+message);
+    },
+    isUserDone() {
+      return (this.currentStep >= this.steps.length-1);
     }
   }
 };
