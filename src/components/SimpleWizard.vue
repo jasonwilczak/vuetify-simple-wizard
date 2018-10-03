@@ -36,7 +36,7 @@
       <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
         <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
       </v-stepper-content>
-      <v-layout :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
+      <v-layout v-show="isMobile && currentStep==index" :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
           <v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
       </v-layout>      
