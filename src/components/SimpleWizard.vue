@@ -4,9 +4,10 @@
       <v-stepper-header>
         <template v-for="(item,index) in steps">
           <v-stepper-step
-            :complete="currentStep > index"
+            :complete="isStepComplete(index)"
             :key="`${index}-step`"
-            :step="index+1"              
+            :step="index+1"   
+            :editable="item.nonLinear && !isPersisted()"           
           >{{ item.label }}
           </v-stepper-step>
           <v-divider
@@ -21,24 +22,25 @@
         </v-stepper-content>
       </v-stepper-items>
       <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
-          <v-btn v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
-          <v-btn v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
+          <v-btn outline round v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
+          <v-btn round v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
       </v-layout>
   </div>
   <div v-show="isMobile">
     <template v-for="(item,index) in steps">
       <v-stepper-step
-            :complete="currentStep > index"
+            :complete="isStepComplete(index)"
             :key="`${index}-step-mobile`"
-            :step="index+1"              
+            :step="index+1"       
+            :editable="item.nonLinear && !isPersisted()"         
       >{{ item.label }}
       </v-stepper-step>
       <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
         <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
       </v-stepper-content>
       <v-layout v-show="isMobile && currentStep==index" :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
-          <v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
-          <v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
+          <v-btn outline round v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
+          <v-btn round v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
       </v-layout>      
       <v-divider v-if="index !== steps.length" :key="index"></v-divider>  
     </template>
@@ -66,11 +68,23 @@ export default {
       steps: {},
       onNext: {},
       onBack: {},
+      isPersisted: {
+        type: Function,
+        default: () => {return false;}
+      },
       mobileBreakpoint: {default: 960},
       theme: {
         type: Object,
         default: () => {
           return {actionBarBgColor: 'grey lighten-2'}
+        }
+      },
+      baseOptions: {
+        type: Object,
+        default: () => {
+          return {
+            nonLinear: false
+          }
         }
       },
       developer: {
@@ -159,6 +173,11 @@ export default {
         else {
           return false
         }
+      },
+      isStepComplete(stepIndex) {
+        const currentStep = this.steps[stepIndex];
+        return (currentStep.isStepComplete && currentStep.isStepComplete()) 
+        || (!currentStep.isStepComplete && this.currentStep > stepIndex);
       },
       log(message) {
         if(this.developer.verboseLogging) {
