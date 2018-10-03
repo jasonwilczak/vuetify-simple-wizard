@@ -1,5 +1,5 @@
 <template>
-<v-stepper v-model="stepStage" :alt-labels="!isMobile" :vertical="isMobile" >
+<v-stepper v-model="stepStage" :alt-labels="!isMobile" :vertical="isMobile" v-resize="handleResize" >
   <div v-show="!isMobile">
       <v-stepper-header>
         <template v-for="(item,index) in steps">
@@ -16,9 +16,9 @@
         </template>
       </v-stepper-header>
       <v-stepper-items>
-        <template v-for="(item,index) in steps">
-          <portal-target name="portal-slot" :key="`${index}-stepContent-content`" :slot-props="{index: index,slotName:item.slot}"></portal-target>
-        </template>
+        <v-stepper-content v-for="(item,index) in steps" :key="index" :step="index+1">
+          <portal-target :name="`portal-desk-${index}`" :key="index" slim></portal-target>
+        </v-stepper-content>
       </v-stepper-items>
       <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
           <v-btn v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
@@ -33,7 +33,9 @@
             :step="index+1"              
       >{{ item.label }}
       </v-stepper-step>
-      <portal-target name="portal-slot" :key="`${index}-stepContent-mobile-content`" :slot-props="{index: index,slotName:item.slot}"></portal-target>
+      <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
+        <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
+      </v-stepper-content>
       <v-layout :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
           <v-btn v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
@@ -41,11 +43,11 @@
       <v-divider v-if="index !== steps.length" :key="index"></v-divider>  
     </template>
   </div>  
-  <portal to="portal-slot" slot-scope="{index,slotName}">
-    <v-stepper-content :step="index+1">
-      <slot :name="slotName"></slot>
-    </v-stepper-content>
-  </portal>
+  <template v-for="(item, index) in steps">
+    <portal :to="portalName(index)" :key="index">
+      <slot :name="item.slot"></slot>
+    </portal>
+  </template>
 </v-stepper>
 </template>
 
@@ -70,6 +72,12 @@ export default {
         default: () => {
           return {actionBarBgColor: 'grey lighten-2'}
         }
+      },
+      developer: {
+        type: Object,
+        default: () => {
+          return {verboseLogging:false,logger:null}
+        }
       }
     },
     data () {
@@ -84,6 +92,12 @@ export default {
       }
     },
     computed: {
+      portalName() {
+        return (index) => {
+          const section = this.isMobile ? 'mobile' : 'desk';
+          return `portal-${section}-${index}` 
+        }
+      }
     },
     watch: {
       stepStage: function() {
@@ -96,10 +110,6 @@ export default {
     mounted() {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
       this.isMobile = this.isMobileCheck();
-      
-      window.addEventListener('resize', this.handleResize)
-      this.stepStage = this.currentStep+1;
-      console.log(this.stepStage);
     },
     methods: {
       getStepOptions(stepIndex) {
@@ -131,16 +141,16 @@ export default {
         }
       },
       handleResize() {
-        console.log('resizing...');
+        this.log('resizing...');
         this.isMobile = this.isMobileCheck();
         this.stepStage = this.currentStep+1;
         this.$forceUpdate();
-        console.log('resize stepstage:'+this.stepStage)
+        this.log('resize stepstage:'+this.stepStage)
       },
       isMobileCheck() {
         // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        //   console.log('useragent : '+navigator.userAgent)
-        //   console.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+        //   this.log('useragent : '+navigator.userAgent)
+        //   this.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
         //   return true
         // } else if(window.innerWidth < 960){
         if(window.innerWidth < 960){
@@ -148,8 +158,17 @@ export default {
         }
         else {
           return false
+        }
+      },
+      log(message) {
+        if(this.developer.verboseLogging) {
+          if(this.developer.logger && typeof this.developer.logger == 'function') 
+            this.developer.logger(message);
+          else
+            console.log(message);
+        }
       }
- }
+ 
     }
   }
 </script>

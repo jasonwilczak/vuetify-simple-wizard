@@ -8554,28 +8554,25 @@ return index;
 })();
 
 var SimpleWizard = { render: function () {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, scopedSlots: _vm._u([{ key: "default", fn: function (ref) {
-          var index = ref.index;
-          var slotName = ref.slotName;
-
-          return _c('portal', { attrs: { "to": "portal-slot" } }, [_c('v-stepper-content', { attrs: { "step": index + 1 } }, [_vm._t(slotName)], 2)], 1);
-        } }]), model: { value: _vm.stepStage, callback: function ($$v) {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { directives: [{ name: "resize", rawName: "v-resize", value: _vm.handleResize, expression: "handleResize" }], attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, model: { value: _vm.stepStage, callback: function ($$v) {
           _vm.stepStage = $$v;
         }, expression: "stepStage" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.isMobile, expression: "!isMobile" }] }, [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
       return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
-    })], 2), _vm._v(" "), _c('v-stepper-items', [_vm._l(_vm.steps, function (item, index) {
-      return [_c('portal-target', { key: (index + "-stepContent-content"), attrs: { "name": "portal-slot", "slot-props": { index: index, slotName: item.slot } } })];
-    })], 2), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+    })], 2), _vm._v(" "), _c('v-stepper-items', _vm._l(_vm.steps, function (item, index) {
+      return _c('v-stepper-content', { key: index, attrs: { "step": index + 1 } }, [_c('portal-target', { key: index, attrs: { "name": ("portal-desk-" + index), "slim": "" } })], 1);
+    })), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
           _vm.nextStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('portal-target', { key: (index + "-stepContent-mobile-content"), attrs: { "name": "portal-slot", "slot-props": { index: index, slotName: item.slot } } }), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.currentStep > index, "step": index + 1 } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [_c('portal-target', { key: index, attrs: { "name": ("portal-mobile-" + index), "slim": "" } })], 1), _vm._v(" "), _c('v-layout', { key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "flat": "" }, on: { "click": function ($event) {
             _vm.backStep();
           } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "color": "primary" }, on: { "click": function ($event) {
             _vm.nextStep();
           } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1), _vm._v(" "), index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
-    })], 2)]);
+    })], 2), _vm._v(" "), _vm._l(_vm.steps, function (item, index) {
+      return [_c('portal', { key: index, attrs: { "to": _vm.portalName(index) } }, [_vm._t(item.slot)], 2)];
+    })], 2);
   }, staticRenderFns: [],
   name: 'vuetify-simple-wizard',
   props: {
@@ -8596,6 +8593,12 @@ var SimpleWizard = { render: function () {
       default: function () {
         return { actionBarBgColor: 'grey lighten-2' };
       }
+    },
+    developer: {
+      type: Object,
+      default: function () {
+        return { verboseLogging: false, logger: null };
+      }
     }
   },
   data: function data() {
@@ -8609,7 +8612,16 @@ var SimpleWizard = { render: function () {
       currentStepOptions: {}
     };
   },
-  computed: {},
+  computed: {
+    portalName: function portalName() {
+      var this$1 = this;
+
+      return function (index) {
+        var section = this$1.isMobile ? 'mobile' : 'desk';
+        return ("portal-" + section + "-" + index);
+      };
+    }
+  },
   watch: {
     stepStage: function () {
       this.currentStep = this.stepStage - 1;
@@ -8621,10 +8633,6 @@ var SimpleWizard = { render: function () {
   mounted: function mounted() {
     this.currentStepOptions = this.steps[this.currentStep].options || {};
     this.isMobile = this.isMobileCheck();
-
-    window.addEventListener('resize', this.handleResize);
-    this.stepStage = this.currentStep + 1;
-    console.log(this.stepStage);
   },
   methods: {
     getStepOptions: function getStepOptions(stepIndex) {
@@ -8656,16 +8664,16 @@ var SimpleWizard = { render: function () {
       }
     },
     handleResize: function handleResize() {
-      console.log('resizing...');
+      this.log('resizing...');
       this.isMobile = this.isMobileCheck();
       this.stepStage = this.currentStep + 1;
       this.$forceUpdate();
-      console.log('resize stepstage:' + this.stepStage);
+      this.log('resize stepstage:' + this.stepStage);
     },
     isMobileCheck: function isMobileCheck() {
       // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      //   console.log('useragent : '+navigator.userAgent)
-      //   console.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+      //   this.log('useragent : '+navigator.userAgent)
+      //   this.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
       //   return true
       // } else if(window.innerWidth < 960){
       if (window.innerWidth < 960) {
@@ -8673,7 +8681,13 @@ var SimpleWizard = { render: function () {
       } else {
         return false;
       }
+    },
+    log: function log(message) {
+      if (this.developer.verboseLogging) {
+        if (this.developer.logger && typeof this.developer.logger == 'function') { this.developer.logger(message); }else { console.log(message); }
+      }
     }
+
   }
 };
 

@@ -5,6 +5,7 @@
       :steps="steps"
       :onNext="nextClicked" 
       :onBack="backClicked"
+      :developer="{'verboseLogging':'true','logger':myLogger}"
       >
       <div slot="page1">
         <h4>Step 1</h4>
@@ -110,12 +111,15 @@ export default {
   },
   methods: {
     nextClicked(currentPage) {
-      console.log('next clicked', currentPage)
+      this.myLogger('next clicked', currentPage)
       return true; //return false if you want to prevent moving to next page
     },
     backClicked(currentPage) {
-      console.log('back clicked', currentPage);
+      this.myLogger('back clicked', currentPage);
       return true; //return false if you want to prevent moving to previous page
+    },
+    myLogger(message) {
+      console.log('from myLogger: '+message);
     }
   }
 };
