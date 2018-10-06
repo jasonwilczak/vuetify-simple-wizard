@@ -1,5 +1,5 @@
 /**
- * vuetify-simple-table v1.1.0
+ * vuetify-simple-table v1.1.1
  * https://github.com/jasonwilczak/vuetify-simple-wizard
  * Released under the MIT License.
  */
