@@ -9,37 +9,59 @@
       :isPersisted="isUserDone"
       >
       <div slot="page1">
-        <h4>Step 1</h4>
-        <input
-        id="step1"
-        v-model="step1"
-        rows="15"
-        >
-        </input>
+        <h4>User Info</h4>
+        <v-form v-model="step1Model.isValid" ref="formStep1" lazy-validation>
+          <v-layout row wrap>
+            <v-flex md3>
+              <v-text-field v-model="step1Model.applicant.firstName" label="First Name" required></v-text-field>
+            </v-flex>
+            <v-flex md3>
+              <v-text-field v-model="step1Model.applicant.lastName" label="Last Name" required></v-text-field>
+            </v-flex>
+            <v-flex md2>
+              <v-text-field v-model="step1Model.phone" type="tel" label="Phone" required></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-form>
       </div>
       <div slot="page2">
-        <h4>Step 2</h4>
-        <input
-        id="step2"
-        v-model="step2"
-        rows="15"
-        >
-        </input>
+        <h4>Address</h4>
+        <v-form v-model="step2Model.isValid" ref="formStep2">
+          <v-layout row wrap>
+            <v-flex md3>
+              <v-text-field v-model="step2Model.address.street" label="Street"></v-text-field>
+            </v-flex>
+            <v-flex md3>
+              <v-text-field v-model="step2Model.address.city" label="City"></v-text-field>
+            </v-flex>
+            <v-flex md2>
+              <v-text-field v-model="step2Model.address.state" label="State"></v-text-field>
+            </v-flex>
+            <v-flex md1>
+              <v-text-field v-model="step2Model.address.zip" label="Zip"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-form>
       </div>
       <div slot="page3">
-        <h4>Step 3</h4>
+        <h4>Step 3 - Constraints</h4>
+        <p>You are blocked from doing all things.</p>
       </div>
       <div slot="page4">
-        <h4>Step 3</h4>
+        <h4>Step 4 - Twist Gears</h4>
+        <p>All gears must be twisted at all times</p>
       </div>
       <div slot="page5">
-        <h4>Step 3</h4>
+        <h4>Step 5 - Define Terrain</h4>
+        <p>Is it rocky, flat, peaked?</p>
       </div>
       <div slot="page6">
-        <h4>Step 3</h4>
+        <h4>Step 6 - Hire Trolls</h4>
+        <p>This wizard is too long...</p>
       </div>
       <div slot="page7">
-        <h4>Step 3</h4>
+        <h4>Step 7 - Move Rocks</h4>
+        <p>Is that the same as "kick rocks"...?</p>
       </div>
       <div slot="pageDone">
         <h2>Congratulations!  You can leave now...</h2>
@@ -54,19 +76,32 @@ export default {
   name: 'simplewizard-demo',
   data(){
     return {
-      step1:'',
-      step2:'',
+      step1Model:{
+        applicant: {
+          firstName:'',
+          lastName:''
+        },
+        phone:''
+      },
+      step2Model:{
+        address: {
+          street: '',
+          city: '',
+          state: '',
+          zip: ''
+        }
+      },
       currentStep: 0,
       steps: [
         {
-          label: 'Select Items',
+          label: 'User',
           slot: 'page1',
           options: {
             hidePrevious: true
           }          
         },
         {
-          label: 'Add Constraints',
+          label: 'Address',
           slot: 'page2',
           options: {
             previousStepLabel: 'Left',
