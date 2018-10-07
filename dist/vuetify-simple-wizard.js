@@ -1,5 +1,5 @@
 /**
- * vuetify-simple-table v1.1.0
+ * vuetify-simple-table v1.1.1
  * https://github.com/jasonwilczak/vuetify-simple-wizard
  * Released under the MIT License.
  */
@@ -8558,14 +8558,14 @@ var SimpleWizard = { render: function () {
           _vm.stepStage = $$v;
         }, expression: "stepStage" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.isMobile, expression: "!isMobile" }] }, [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
       return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
-    })], 2), _vm._v(" "), _c('v-stepper-items', _vm._l(_vm.steps, function (item, index) {
-      return _c('v-stepper-content', { key: index, attrs: { "step": index + 1 } }, [_c('portal-target', { key: index, attrs: { "name": ("portal-desk-" + index), "slim": "" } })], 1);
-    })), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
+    })], 2), _vm._v(" "), _vm._l(_vm.steps, function (item, index) {
+      return _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && !_vm.isMobile, expression: "currentStep==index && !isMobile" }], key: index }, [_c('v-flex', [_c('portal-target', { key: index, attrs: { "name": ("portal-desk-" + index), "slim": "" } })], 1)], 1);
+    }), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
         } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "round": "", "color": "primary" }, on: { "click": function ($event) {
           _vm.nextStep();
-        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 1), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-stepper-content', { key: (index + "-stepContent-mobile"), attrs: { "step": index + 1 } }, [_c('portal-target', { key: index, attrs: { "name": ("portal-mobile-" + index), "slim": "" } })], 1), _vm._v(" "), _c('v-layout', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile && _vm.currentStep == index, expression: "isMobile && currentStep==index" }], key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
+        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 2), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && _vm.isMobile, expression: "currentStep==index && isMobile" }], key: (index + "-stepContent-mobile") }, [_c('portal-target', { key: index, attrs: { "name": ("portal-mobile-" + index), "slim": "" } })], 1), _vm._v(" "), _c('v-layout', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile && _vm.currentStep == index, expression: "isMobile && currentStep==index" }], key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
             _vm.backStep();
           } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "round": "", "color": "primary" }, on: { "click": function ($event) {
             _vm.nextStep();
@@ -8647,6 +8647,7 @@ var SimpleWizard = { render: function () {
   mounted: function mounted() {
     this.currentStepOptions = this.steps[this.currentStep].options || {};
     this.isMobile = this.isMobileCheck();
+    this.$forceUpdate();
   },
   methods: {
     getStepOptions: function getStepOptions(stepIndex) {

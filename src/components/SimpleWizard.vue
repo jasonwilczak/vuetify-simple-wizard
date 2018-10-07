@@ -16,11 +16,9 @@
           ></v-divider>          
         </template>
       </v-stepper-header>
-      <v-stepper-items>
-        <v-stepper-content v-for="(item,index) in steps" :key="index" :step="index+1">
-          <portal-target :name="`portal-desk-${index}`" :key="index" slim></portal-target>
-        </v-stepper-content>
-      </v-stepper-items>
+      <v-container v-for="(item,index) in steps" :key="index"  v-show="currentStep==index && !isMobile">
+            <v-flex><portal-target :name="`portal-desk-${index}`" :key="index" slim></portal-target></v-flex>
+      </v-container>      
       <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
           <v-btn outline round v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn round v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
@@ -35,9 +33,9 @@
             :editable="item.nonLinear && !isPersisted()"         
       >{{ item.label }}
       </v-stepper-step>
-      <v-stepper-content :key="`${index}-stepContent-mobile`" :step="index+1">
-        <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
-      </v-stepper-content>
+      <v-container :key="`${index}-stepContent-mobile`" v-show="currentStep==index && isMobile">
+          <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
+      </v-container>      
       <v-layout v-show="isMobile && currentStep==index" :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
           <v-btn outline round v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
           <v-btn round v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
@@ -124,6 +122,7 @@ export default {
     mounted() {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
       this.isMobile = this.isMobileCheck();
+      this.$forceUpdate();
     },
     methods: {
       getStepOptions(stepIndex) {
