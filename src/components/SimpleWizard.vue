@@ -19,9 +19,9 @@
       <v-container v-for="(item,index) in steps" :key="index"  v-show="currentStep==index && !isMobile">
             <v-flex><portal-target :name="`portal-desk-${index}`" :key="index" slim></portal-target></v-flex>
       </v-container>      
-      <v-layout :class="theme.actionBarBgColor" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
-          <v-btn outline round v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || previousStepLabel}}</v-btn>
-          <v-btn round v-if="!currentStepOptions.hideNext" @click="nextStep()" color="primary">{{currentStepOptions.nextStepLabel || nextStepLabel}}</v-btn>
+      <v-layout :style="{backgroundColor:theme.actionBarBgColor}" :justify-space-between="!currentStepOptions.hidePrevious" justify-end>        
+          <v-btn outline round :color="theme.backButtonBgColor" v-if="!currentStepOptions.hidePrevious" flat @click="backStep()">{{currentStepOptions.previousStepLabel || labelDefaults.previousStepLabel}}</v-btn>
+          <v-btn round v-if="!currentStepOptions.hideNext" @click="nextStep()" :color="theme.nextButtonBgColor">{{currentStepOptions.nextStepLabel || labelDefaults.nextStepLabel}}</v-btn>
       </v-layout>
   </div>
   <div v-show="isMobile">
@@ -36,9 +36,9 @@
       <v-container :key="`${index}-stepContent-mobile`" v-show="currentStep==index && isMobile">
           <portal-target :name="`portal-mobile-${index}`" :key="index" slim></portal-target>
       </v-container>      
-      <v-layout v-show="isMobile && currentStep==index" :class="theme.actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
-          <v-btn outline round v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || previousStepLabel}}</v-btn>
-          <v-btn round v-if="!getStepOptions(index).hideNext" @click="nextStep()" color="primary">{{getStepOptions(index).nextStepLabel || nextStepLabel}}</v-btn>
+      <v-layout v-show="isMobile && currentStep==index" color="actionBarBgColor" :key="`${index}-stepActions-mobile`" :justify-space-between="!getStepOptions(index).hidePrevious" justify-end>        
+          <v-btn outline round :color="theme.backButtonBgColor" v-if="!getStepOptions(index).hidePrevious" flat @click="backStep()">{{getStepOptions(index).previousStepLabel || labelDefaults.previousStepLabel}}</v-btn>
+          <v-btn round v-if="!getStepOptions(index).hideNext" @click="nextStep()" :color="theme.nextButtonBgColor">{{getStepOptions(index).nextStepLabel || labelDefaults.nextStepLabel}}</v-btn>
       </v-layout>      
       <v-divider v-if="index !== steps.length" :key="index"></v-divider>  
     </template>
@@ -55,14 +55,15 @@
 export default {
     name: 'vuetify-simple-wizard',
     props: {
-      completeStep: {
+      labelDefaults: {
         type: Object,
         default: () => {
-          return {has:false,showButton:false,label:'Done'};
+          return {
+            previousStepLabel: 'Back',
+            nextStepLabel: 'Next'
+          }
         }
       },
-      previousStepLabel: {default: 'Back'},
-      nextStepLabel: {default: 'Next'},
       steps: {},
       onNext: {},
       onBack: {},
@@ -74,15 +75,11 @@ export default {
       theme: {
         type: Object,
         default: () => {
-          return {actionBarBgColor: 'grey lighten-2'}
-        }
-      },
-      baseOptions: {
-        type: Object,
-        default: () => {
           return {
-            nonLinear: false
-          }
+            actionBarBgColor: '#E0E0E0',
+            nextButtonBgColor: 'primary',
+            backButtonBgColor: ''
+            }
         }
       },
       developer: {
@@ -96,10 +93,7 @@ export default {
       return {       
         stepStage:0, 
         currentStep: 0,
-        isMounted: false,
-        resizer: null,
         isMobile:false,
-        stepHeaders:[],
         currentStepOptions: {}
       }
     },
@@ -122,6 +116,11 @@ export default {
     mounted() {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
       this.isMobile = this.isMobileCheck();
+      const userDefinedTheme = this.$vuetify.theme;
+      this.theme.actionBarBgColor = userDefinedTheme.actionbar || this.theme.actionBarBgColor;
+      this.theme.nextButtonBgColor = userDefinedTheme.nextbuttonBackground || this.theme.nextButtonBgColor;
+      this.theme.backButtonBgColor = userDefinedTheme.backbuttonBackground || this.theme.backButtonBgColor;
+      this.log('theme values:'+this.theme);
       this.$forceUpdate();
     },
     methods: {
@@ -163,9 +162,9 @@ export default {
       isMobileCheck() {
         // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         //   this.log('useragent : '+navigator.userAgent)
-        //   this.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
         //   return true
-        // } else if(window.innerWidth < 960){
+        // } 
+        // else 
         if(window.innerWidth < 960){
           return true
         }

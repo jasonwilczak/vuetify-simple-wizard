@@ -13,5 +13,10 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    //this.$vuetify.theme.actionbar= '#F4425F';
+    //this.$vuetify.theme.nextbuttonBackground='green';
+    //this.$vuetify.theme.backbuttonBackground='purple';
+ }
 })
