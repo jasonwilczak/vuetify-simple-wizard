@@ -1,4 +1,10 @@
 # vuetify-simple-wizard
+
+![npm](https://img.shields.io/npm/v/vuetify-simple-wizard.svg?style=plastic)
+![NpmLicense](https://img.shields.io/npm/l/vuetify-simple-wizard.svg?style=plastic)
+![npm](https://img.shields.io/npm/dt/vuetify-simple-wizard.svg?style=plastic)
+
+
 A simple wizard that uses Vue2+Vuetify to get you going quickly
 
 ## Getting Started
