@@ -1,8 +1,6 @@
 import PortalVue from 'portal-vue';
 import SimpleWizard from './components/SimpleWizard.vue';
 
-
-
 var SimpleWizardPlugin = {
   install: function(Vue, options) {
     Vue.use(PortalVue)

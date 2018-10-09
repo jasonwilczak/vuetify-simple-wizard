@@ -1,5 +1,5 @@
 /**
- * vuetify-simple-table v1.1.1
+ * vuetify-simple-table v2.0.0
  * https://github.com/jasonwilczak/vuetify-simple-wizard
  * Released under the MIT License.
  */
@@ -8560,30 +8560,31 @@ var SimpleWizard = { render: function () {
       return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2), _vm._v(" "), _vm._l(_vm.steps, function (item, index) {
       return _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && !_vm.isMobile, expression: "currentStep==index && !isMobile" }], key: index }, [_c('v-flex', [_c('portal-target', { key: index, attrs: { "name": ("portal-desk-" + index), "slim": "" } })], 1)], 1);
-    }), _vm._v(" "), _c('v-layout', { class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
+    }), _vm._v(" "), _c('v-layout', { style: { backgroundColor: _vm.theme.actionBarBgColor }, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "color": _vm.theme.backButtonBgColor, "flat": "" }, on: { "click": function ($event) {
           _vm.backStep();
-        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "round": "", "color": "primary" }, on: { "click": function ($event) {
+        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.previousStepLabel || _vm.labelDefaults.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.currentStepOptions.hideNext ? _c('v-btn', { attrs: { "round": "", "color": _vm.theme.nextButtonBgColor }, on: { "click": function ($event) {
           _vm.nextStep();
-        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1)], 2), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && _vm.isMobile, expression: "currentStep==index && isMobile" }], key: (index + "-stepContent-mobile") }, [_c('portal-target', { key: index, attrs: { "name": ("portal-mobile-" + index), "slim": "" } })], 1), _vm._v(" "), _c('v-layout', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile && _vm.currentStep == index, expression: "isMobile && currentStep==index" }], key: (index + "-stepActions-mobile"), class: _vm.theme.actionBarBgColor, attrs: { "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "flat": "" }, on: { "click": function ($event) {
+        } } }, [_vm._v(_vm._s(_vm.currentStepOptions.nextStepLabel || _vm.labelDefaults.nextStepLabel))]) : _vm._e()], 1)], 2), _vm._v(" "), _c('div', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile, expression: "isMobile" }] }, [_vm._l(_vm.steps, function (item, index) {
+      return [_c('v-stepper-step', { key: (index + "-step-mobile"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && _vm.isMobile, expression: "currentStep==index && isMobile" }], key: (index + "-stepContent-mobile") }, [_c('portal-target', { key: index, attrs: { "name": ("portal-mobile-" + index), "slim": "" } })], 1), _vm._v(" "), _c('v-layout', { directives: [{ name: "show", rawName: "v-show", value: _vm.isMobile && _vm.currentStep == index, expression: "isMobile && currentStep==index" }], key: (index + "-stepActions-mobile"), attrs: { "color": "actionBarBgColor", "justify-space-between": !_vm.getStepOptions(index).hidePrevious, "justify-end": "" } }, [!_vm.getStepOptions(index).hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "color": _vm.theme.backButtonBgColor, "flat": "" }, on: { "click": function ($event) {
             _vm.backStep();
-          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "round": "", "color": "primary" }, on: { "click": function ($event) {
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).previousStepLabel || _vm.labelDefaults.previousStepLabel))]) : _vm._e(), _vm._v(" "), !_vm.getStepOptions(index).hideNext ? _c('v-btn', { attrs: { "round": "", "color": _vm.theme.nextButtonBgColor }, on: { "click": function ($event) {
             _vm.nextStep();
-          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.nextStepLabel))]) : _vm._e()], 1), _vm._v(" "), index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
+          } } }, [_vm._v(_vm._s(_vm.getStepOptions(index).nextStepLabel || _vm.labelDefaults.nextStepLabel))]) : _vm._e()], 1), _vm._v(" "), index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2), _vm._v(" "), _vm._l(_vm.steps, function (item, index) {
       return [_c('portal', { key: index, attrs: { "to": _vm.portalName(index) } }, [_vm._t(item.slot)], 2)];
     })], 2);
   }, staticRenderFns: [],
   name: 'vuetify-simple-wizard',
   props: {
-    completeStep: {
+    labelDefaults: {
       type: Object,
       default: function () {
-        return { has: false, showButton: false, label: 'Done' };
+        return {
+          previousStepLabel: 'Back',
+          nextStepLabel: 'Next'
+        };
       }
     },
-    previousStepLabel: { default: 'Back' },
-    nextStepLabel: { default: 'Next' },
     steps: {},
     onNext: {},
     onBack: {},
@@ -8597,14 +8598,10 @@ var SimpleWizard = { render: function () {
     theme: {
       type: Object,
       default: function () {
-        return { actionBarBgColor: 'grey lighten-2' };
-      }
-    },
-    baseOptions: {
-      type: Object,
-      default: function () {
         return {
-          nonLinear: false
+          actionBarBgColor: '#E0E0E0',
+          nextButtonBgColor: 'primary',
+          backButtonBgColor: ''
         };
       }
     },
@@ -8619,10 +8616,7 @@ var SimpleWizard = { render: function () {
     return {
       stepStage: 0,
       currentStep: 0,
-      isMounted: false,
-      resizer: null,
       isMobile: false,
-      stepHeaders: [],
       currentStepOptions: {}
     };
   },
@@ -8647,6 +8641,11 @@ var SimpleWizard = { render: function () {
   mounted: function mounted() {
     this.currentStepOptions = this.steps[this.currentStep].options || {};
     this.isMobile = this.isMobileCheck();
+    var userDefinedTheme = this.$vuetify.theme;
+    this.theme.actionBarBgColor = userDefinedTheme.actionbar || this.theme.actionBarBgColor;
+    this.theme.nextButtonBgColor = userDefinedTheme.nextbuttonBackground || this.theme.nextButtonBgColor;
+    this.theme.backButtonBgColor = userDefinedTheme.backbuttonBackground || this.theme.backButtonBgColor;
+    this.log('theme values:' + this.theme);
     this.$forceUpdate();
   },
   methods: {
@@ -8688,9 +8687,9 @@ var SimpleWizard = { render: function () {
     isMobileCheck: function isMobileCheck() {
       // if(/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       //   this.log('useragent : '+navigator.userAgent)
-      //   this.log('useragenttest : '+/Android|webOS|iPhone||iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
       //   return true
-      // } else if(window.innerWidth < 960){
+      // } 
+      // else 
       if (window.innerWidth < 960) {
         return true;
       } else {
