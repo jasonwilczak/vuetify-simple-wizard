@@ -71,6 +71,7 @@ export default {
         type: Function,
         default: () => {return false;}
       },
+      scrollToTopOnStepChange: {default: true},
       mobileBreakpoint: {default: 960},
       theme: {
         type: Object,
@@ -108,6 +109,7 @@ export default {
     watch: {
       stepStage: function() {
         this.currentStep = this.stepStage-1;
+        if(this.scrollToTopOnStepChange===true) this.goToTopOnNext();
       },
       currentStep: function() {
         this.currentStepOptions = this.steps[this.currentStep].options || {};
@@ -184,6 +186,11 @@ export default {
           else
             console.log(message);
         }
+      },
+      // When the user clicks on the button, scroll to the top of the document
+      goToTopOnNext() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
       }
  
     }
