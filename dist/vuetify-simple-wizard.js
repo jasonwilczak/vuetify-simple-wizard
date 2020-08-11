@@ -1,5 +1,5 @@
 /**
- * vuetify-simple-table v2.0.0
+ * vuetify-simple-table v2.1.0
  * https://github.com/jasonwilczak/vuetify-simple-wizard
  * Released under the MIT License.
  */
@@ -8594,6 +8594,7 @@ var SimpleWizard = { render: function () {
         return false;
       }
     },
+    scrollToTopOnStepChange: { default: true },
     mobileBreakpoint: { default: 960 },
     theme: {
       type: Object,
@@ -8633,6 +8634,7 @@ var SimpleWizard = { render: function () {
   watch: {
     stepStage: function () {
       this.currentStep = this.stepStage - 1;
+      if (this.scrollToTopOnStepChange === true) { this.goToTopOnNext(); }
     },
     currentStep: function () {
       this.currentStepOptions = this.steps[this.currentStep].options || {};
@@ -8704,6 +8706,11 @@ var SimpleWizard = { render: function () {
       if (this.developer.verboseLogging) {
         if (this.developer.logger && typeof this.developer.logger == 'function') { this.developer.logger(message); }else { console.log(message); }
       }
+    },
+    // When the user clicks on the button, scroll to the top of the document
+    goToTopOnNext: function goToTopOnNext() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }
 
   }
