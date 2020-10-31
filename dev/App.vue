@@ -135,6 +135,7 @@ Duis vitae risus tincidunt, vehicula nunc sit amet, auctor sapien. Donec arcu qu
         {
           label: 'Twist Gears',
           slot: 'page3',
+          validate: () => { alert('hi'); return false;}
         },
         {
           label: 'Define Terrain',
