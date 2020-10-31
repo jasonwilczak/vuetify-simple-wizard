@@ -5,6 +5,7 @@
         <template v-for="(item,index) in steps">
           <v-stepper-step
             :complete="isStepComplete(index)"
+            :rules="[()=>checkRules(index)]"
             :key="`${index}-step`"
             :step="index+1"   
             :editable="item.nonLinear && !isPersisted()"           
@@ -191,6 +192,19 @@ export default {
       goToTopOnNext() {
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      },
+      checkRules(index) {
+        const currentStepData = this.steps[index];
+        this.log(`Index(${index} & CurrentIndex(${this.currentStep}`);
+        if(index >= this.currentStep) {
+          return true;
+        }
+        if(!currentStepData.validate || typeof currentStepData.validate != 'function') {
+          this.log('There is no validation function for this step');
+          return true;
+        }
+        const validationResult = currentStepData.validate();
+        return validationResult;
       }
  
     }

@@ -1,5 +1,5 @@
 /**
- * vuetify-simple-table v2.1.0
+ * vuetify-simple-table v2.2.0
  * https://github.com/jasonwilczak/vuetify-simple-wizard
  * Released under the MIT License.
  */
@@ -8557,7 +8557,7 @@ var SimpleWizard = { render: function () {
     var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('v-stepper', { directives: [{ name: "resize", rawName: "v-resize", value: _vm.handleResize, expression: "handleResize" }], attrs: { "alt-labels": !_vm.isMobile, "vertical": _vm.isMobile }, model: { value: _vm.stepStage, callback: function ($$v) {
           _vm.stepStage = $$v;
         }, expression: "stepStage" } }, [_c('div', { directives: [{ name: "show", rawName: "v-show", value: !_vm.isMobile, expression: "!isMobile" }] }, [_c('v-stepper-header', [_vm._l(_vm.steps, function (item, index) {
-      return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.isStepComplete(index), "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
+      return [_c('v-stepper-step', { key: (index + "-step"), attrs: { "complete": _vm.isStepComplete(index), "rules": [function () { return _vm.checkRules(index); }], "step": index + 1, "editable": item.nonLinear && !_vm.isPersisted() } }, [_vm._v(_vm._s(item.label) + " ")]), _vm._v(" "), !_vm.isMobile && index !== _vm.steps.length ? _c('v-divider', { key: index }) : _vm._e()];
     })], 2), _vm._v(" "), _vm._l(_vm.steps, function (item, index) {
       return _c('v-container', { directives: [{ name: "show", rawName: "v-show", value: _vm.currentStep == index && !_vm.isMobile, expression: "currentStep==index && !isMobile" }], key: index }, [_c('v-flex', [_c('portal-target', { key: index, attrs: { "name": ("portal-desk-" + index), "slim": "" } })], 1)], 1);
     }), _vm._v(" "), _c('v-layout', { style: { backgroundColor: _vm.theme.actionBarBgColor }, attrs: { "justify-space-between": !_vm.currentStepOptions.hidePrevious, "justify-end": "" } }, [!_vm.currentStepOptions.hidePrevious ? _c('v-btn', { attrs: { "outline": "", "round": "", "color": _vm.theme.backButtonBgColor, "flat": "" }, on: { "click": function ($event) {
@@ -8711,6 +8711,19 @@ var SimpleWizard = { render: function () {
     goToTopOnNext: function goToTopOnNext() {
       document.body.scrollTop = 0; // For Safari
       document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    },
+    checkRules: function checkRules(index) {
+      var currentStepData = this.steps[index];
+      this.log(("Index(" + index + " & CurrentIndex(" + (this.currentStep)));
+      if (index >= this.currentStep) {
+        return true;
+      }
+      if (!currentStepData.validate || typeof currentStepData.validate != 'function') {
+        this.log('There is no validation function for this step');
+        return true;
+      }
+      var validationResult = currentStepData.validate();
+      return validationResult;
     }
 
   }
